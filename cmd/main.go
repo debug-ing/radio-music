@@ -24,7 +24,7 @@ func main() {
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	log.Println("Radio server is running on http://localhost:8080/radio")
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run(":" + config.App.Port); err != nil {
 		log.Fatal("Error starting server:", err)
 	}
 }

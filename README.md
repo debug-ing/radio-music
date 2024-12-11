@@ -16,12 +16,13 @@ cd radio-music
 go mod tidy
 ```
 
-set config file config/config.toml 
-
+template config.toml 
 ```
 port : set port
 folder : name music folder in base project 
 ```
+
 ```bash
-make run
+make build
+./main --config=./config.toml 
 ```

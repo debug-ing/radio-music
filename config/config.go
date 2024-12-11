@@ -17,9 +17,9 @@ type Config struct {
 var configPublic *Config
 var once sync.Once
 
-func LoadConfig() (config *Config) {
+func LoadConfig(address string) (config *Config) {
 	once.Do(func() {
-		viper.SetConfigFile("config/config.toml")
+		viper.SetConfigFile(address)
 		if err := viper.ReadInConfig(); err != nil {
 			panic(err)
 		}

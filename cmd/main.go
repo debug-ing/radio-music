@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/debug-ing/radio-music/config"
@@ -11,7 +12,9 @@ import (
 )
 
 func main() {
-	config := config.LoadConfig()
+	configPath := flag.String("config", "config.toml", "config file")
+	flag.Parse()
+	config := config.LoadConfig(*configPath)
 	client := internal.NewClient()
 	go internal.StartStream(config.App.Folder, client)
 	r := gin.Default()

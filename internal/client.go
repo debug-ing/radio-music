@@ -69,7 +69,7 @@ func (c *Client) GetClients() []chan []byte {
 }
 
 // HandleClient handles the client
-func (c *Client) HandleClient(w http.ResponseWriter, r *http.Request) {
+func (c *Client) HandleClient(w http.ResponseWriter, _ *http.Request) {
 	client := c.AddClient()
 	defer c.RemoveClient(client)
 	w.Header().Set("Content-Type", "audio/mpeg")

@@ -14,7 +14,6 @@ type Config struct {
 	}
 }
 
-var configPublic *Config
 var once sync.Once
 
 func LoadConfig(address string) (config *Config) {
@@ -26,7 +25,6 @@ func LoadConfig(address string) (config *Config) {
 		if err := viper.Unmarshal(&config); err != nil {
 			panic("ERROR load config file!")
 		}
-		configPublic = config
 		log.Println("================ Loaded Configuration ================")
 	})
 	return

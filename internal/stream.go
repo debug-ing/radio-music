@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -27,7 +26,7 @@ var (
 )
 
 func getPlaylist(folderPath string) ([]string, error) {
-	files, err := ioutil.ReadDir(folderPath)
+	files, err := os.ReadDir(folderPath)
 	if err != nil {
 		return nil, err
 	}

@@ -1,15 +1,29 @@
 package internal
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/dhowden/tag"
 )
+
+type InfoMusic struct {
+	Title    string
+	Artist   string
+	Album    string
+	Year     int
+	Composer string
+	Genre    string
+	Lyrics   string
+}
 
 var (
 	CurrentMusic string
+	Info         *InfoMusic
 )
 
 func getPlaylist(folderPath string) ([]string, error) {
@@ -39,29 +53,41 @@ func StartStream(folderPath string, client *Client) {
 
 	for {
 		for _, filePath := range playlist {
-			CurrentMusic = strings.Split(filePath, "/")[1]
+			CurrentMusic = strings.Split(filePath, "/")[len(strings.Split(filePath, "/"))-1]
 			file, err := os.Open(filePath)
 			if err != nil {
 				log.Println("Error opening file:", err)
 				continue
 			}
-
+			defer file.Close()
+			metadata, err := tag.ReadFrom(file)
+			if err != nil {
+				log.Println("Error reading metadata:", err)
+				return
+			}
+			fmt.Println(metadata.Title())
+			Info = &InfoMusic{
+				Title:    metadata.Title(),
+				Artist:   metadata.Artist(),
+				Album:    metadata.Album(),
+				Year:     metadata.Year(),
+				Composer: metadata.Composer(),
+				Genre:    metadata.Genre(),
+				Lyrics:   metadata.Lyrics(),
+			}
 			buffer := make([]byte, 2048)
 			for {
 				n, err := file.Read(buffer)
 				if err != nil {
 					if err.Error() == "EOF" {
-						break // به فایل بعدی بروید
+						break
 					}
 					log.Println("Error reading file:", err)
 					break
 				}
 				client.Broadcast(buffer[:n])
-				// broadcast(buffer[:n])
 				time.Sleep(50 * time.Millisecond)
 			}
-
-			file.Close()
 		}
 	}
 }

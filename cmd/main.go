@@ -21,7 +21,8 @@ func main() {
 	r.GET("/radio", client.HandleClientGin)
 	r.GET("/status", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"name_music": internal.CurrentMusic,
+			"music": internal.CurrentMusic,
+			"info":  internal.Info,
 		})
 	})
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))

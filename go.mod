@@ -3,6 +3,7 @@ module github.com/debug-ing/radio-music
 go 1.22.3
 
 require (
+	github.com/dhowden/tag v0.0.0-20240417053706-3d75831295e8
 	github.com/gin-gonic/gin v1.10.0
 	github.com/prometheus/client_golang v1.20.5
 	github.com/spf13/viper v1.19.0

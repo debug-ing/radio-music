@@ -73,7 +73,7 @@ func (c *Client) HandleClient(w http.ResponseWriter, _ *http.Request) {
 	client := c.AddClient()
 	defer c.RemoveClient(client)
 	w.Header().Set("Content-Type", "audio/mpeg")
-	// w.Header().Set("Transfer-Encoding", "chunked")
+	// w.Header().Set("Transfer-Encoding", "chunked") // Enable chunked transfer encoding
 	// w.Header().Set("Connection", "keep-alive") // Keep the connection open
 
 	for data := range client {
